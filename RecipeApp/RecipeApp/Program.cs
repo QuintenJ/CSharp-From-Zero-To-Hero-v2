@@ -1,45 +1,53 @@
-﻿using System;
+﻿// Import classes from system namespace
+using System;
 
+// Holder of classes
 namespace RecipeApp
 {
-
-    //Here is async list of standard cooking units:
-    //  Cup 0.24 1
-    //  Gallon 3.79 1
-    //  Fluid Ounce 29.57 ml
-    //  Pint 0.47 1
-    //  Quart 0.95 1
-    //  Tablespoon 14.79 ml
-    //  Teaspoon 4.93 ml
+    // Here is a list of standard cooking units:
+    //    Cup	0.24 l
+    //    Gallon  3.79 l
+    //    Fluid Ounce	29.57 ml
+    //    Pint    0.47 l
+    //    Quart   0.95 l
+    //    Tablespoon  14.79 ml
+    //    Teaspoon    4.93 ml
 
     // Holder of functions and data
     class Program
     {
-        // Name block of code
+        // The less a function implements itself- the higher level it is
+        // Main function simply the application- so it is the highest level function
+        // It just consumes other functions.
+
+        // Named block of code
+        // cw + tab autocompletes to Console.WriteLine();
+        // strongly typed means that I don't need to guess what I can do with a class or a variable
+        // So, when I get errors, they will be before my application runs- in compile time.
+        // Weekly typed means that there is no check on what a function or variable cna do.
+        // We can do that with dynamic keyword: dynamic a; a.IsPerfectly.Fine().CsharpCode().
         static void Main(string[] args)
         {
-            
-            double totalM1 = PrintTeaspoonsToMl() + PrintTablespoonsToMl();
-            PrintHowMany100MlBottles(totalM1);
-           
+            double totalMl = PrintTeaspoonsToMl() + PrintTablespoonsToMl();
+            PrintHowMany100MlBottles(totalMl);
         }
 
         static double PrintTeaspoonsToMl()
         {
-            double teaspoons = GetAmountFromConsole(unit: "teaspoons"); ;
-            double mlOfTeaspoons = TeaspoonsToM1(teaspoons);
-            Print(cookingUnitAmount: teaspoons, cookingUnit: "teaspoons", mlOfTeaspoons);
+            var teaspoons = GetAmountFromConsole("teaspoons");
+            var mlOfTeaspoons = TeaspoonsToMl(teaspoons);
+            Print(teaspoons, "teaspoons", mlOfTeaspoons);
 
             return mlOfTeaspoons;
         }
-         
+
         static double PrintTablespoonsToMl()
         {
-            double tablespoons = GetAmountFromConsole(unit: "tablespoon");
-            double mlOfTablespoon = TableSpoonsToM1(tablespoons);
-            Print(cookingUnitAmount: tablespoons, cookingUnit: "tablespoon", mlOfTablespoon);
+            double tablespoons = GetAmountFromConsole("tablespoons");
+            double mlOfTablespoons = TableSpoonsToMl(tablespoons);
+            Print(tablespoons, "tablespoons", mlOfTablespoons);
 
-            return mlOfTablespoon;
+            return mlOfTablespoons;
         }
 
         static void PrintHowMany100MlBottles(double ml)
@@ -57,43 +65,46 @@ namespace RecipeApp
             int bottlesCount = (int)(ml / 100) + 1;
             Console.WriteLine($"{ml:F2} can fill {bottlesCount} bottles of 100ml");
         }
+
+        // GetTeaspoonsFromConsole is a lower level function.
+        // Because it implement HOW we can read a number from a console.
         static double GetAmountFromConsole(string unit)
         {
-            Console.WriteLine($"Please enter {unit} amount:");
-            string amountText = Console.ReadLine();
-
-
-            // ml = teaspoons * 4.93
+            Console.WriteLine($"Please enter {unit} amount: ");
+            // variable
+            // holds data
+            // type, name, value
+            var amountText = Console.ReadLine();
             // Floating point number with double precision.
             double amount = double.Parse(amountText);
 
             return amount;
         }
 
-        static double TeaspoonsToM1(double teaspons)
+        static double TeaspoonsToMl(double teaspoons)
         {
-            //4.93m is decimal - use it for money
-            //4.93 is double
-            //4.93f is a float use it when you don't plan to use math.
-            double ml = teaspons * 4.93;
+            // 4.93m is a decimal - use it for money- for absolute accuracy- use decimal.
+            // 4.93 is double
+            // 4.93f is a float- use it when you don't plan to use math.
+            double ml = teaspoons * 4.93;
 
             return ml;
         }
 
-        static double TableSpoonsToM1(double teaspons)
+        static double TableSpoonsToMl(double teaspoons)
         {
-            
-            double tablespoons = teaspons * 14.79;
+            double tablespoons = teaspoons * 14.79;
 
             return tablespoons;
         }
+
         static void Print(double cookingUnitAmount, string cookingUnit, double ml)
         {
-            //string interpolation
-            // F2 2 digits after the decimal point
+            // string convertedDescription = teaspoonsText + " teaspoons = " + ml + " ml";
+            // $- string interpolation
+            // F2- 2 digits after decimal point.
             string convertedDescription = $"{cookingUnitAmount} {cookingUnit} = {ml:F2} ml";
             Console.WriteLine(convertedDescription);
-
         }
     }
 }
